@@ -1,0 +1,18 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: sidecar
+
+sidecar:
+  port: 5000
+  health-uri: http://localhost:5000/health
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8302/eureka/
+  instance:
+    hostname: localhost

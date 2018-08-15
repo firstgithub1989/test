@@ -1,0 +1,44 @@
+<div style="text-align:center">{{appTitle}}</div>
+<!-- <app-ticker></app-ticker> -->
+<!-- <nav><a class ="nav-link" [routerLink] = "['graph-cmp']">New component</a></nav> -->
+<div class="navigation">
+    <!-- <a class='top-header' [routerLink]="['app-ticker']">market</a> -->
+    <ul class="navigation">
+      <li class='title'>WELCOME TO CRYPTOTRADE </li>
+      <li *ngIf="!auth" class="navigation">
+        <a [routerLink]="['app-auth']">Login</a>
+      </li>
+      <li>
+        <a onclick=!auth>Toggle</a>
+      </li>
+      <li class="dropdown" *ngIf="auth">
+        <a href="javascript:void(0)" class="dropbtn">PROFILE</a>
+        <div class="dropdown-content">
+          <a class='uppercase' [routerLink]="['app-profile']" >MY PROFILE</a>
+          <a class='uppercase' ng-click='vm.signIn()' >SIGN OUT</a>
+        </div>
+      </li>
+
+      <li *ngIf="!auth" class="navigation">
+        <a [routerLink]="['app-auth']">Register</a>
+      </li>
+      <li class="dropdown" *ngIf="auth">
+        <a href="javascript:void(0)" class="dropbtn">BALANCES</a>
+        <div class="dropdown-content">
+          
+            <a class='uppercase' [routerLink]="['balances']" *ngIf="auth">KOIN WALLET</a>
+            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">KOIN WALLET</a>
+          
+            <a class='uppercase' [routerLink]="['inrwallet']" *ngIf="auth">INR WALLET</a>
+            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">INR WALLET</a>
+            
+            <a class='uppercase' href='history' *ngIf="auth">MY HISTORY</a>
+            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">MY HISTORY</a>
+        </div>
+      </li>
+      <li class="navigation">
+        <a [routerLink]="['']">MARKETPLACE</a>
+      </li>
+    </ul>
+</div>
+<router-outlet></router-outlet>
