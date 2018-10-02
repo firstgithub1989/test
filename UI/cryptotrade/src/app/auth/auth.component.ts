@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from './auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-auth',
@@ -12,12 +13,13 @@ export class AuthenticationComponent implements OnInit {
 
   user: string;
 
-  @Input() auth: string;
+
   model: Signup = new Signup();
 
   logIn: Signup = new Signup();
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private route: ActivatedRoute,
+    private router: Router) {
     console.log('AuthComponent Contructor');
   }
 
@@ -26,8 +28,10 @@ export class AuthenticationComponent implements OnInit {
 
   login() {
      this.user  = this.authService.login(this.model.firstName, this.model.password);
-     localStorage.setItem('userName', 'user');
-  }
+     localStorage.setItem('currentUser', this.user);
+     window.location.reload();
+     this.router.navigateByUrl('/marketplace');
+    }
 }
 
 

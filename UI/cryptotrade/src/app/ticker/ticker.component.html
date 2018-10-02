@@ -2,7 +2,7 @@
   <h1>
     MarketPlace
   </h1>
-  <select id="option" formControlName="option" (change)="onOptionSelect($event)" >
+  <select id="option" (change)="onOptionSelect($event)" >
       <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
   </select>
   <table class="table">
@@ -20,7 +20,7 @@
         </li>
       </ul> -->
     <tr  *ngFor="let tick of ticker">
-      <a [routerLink]="['/buysell']"><td>{{tick.currency}}</td></a>
+      <a [routerLink]="['/buysell', tick.currency, option]"><td>{{tick.currency}}</td></a>
       <td>{{tick.rate | number:'1.0-4'}}</td>
       <td>{{tick.change | number :'2.2-2'}}%</td>
     </tr> 

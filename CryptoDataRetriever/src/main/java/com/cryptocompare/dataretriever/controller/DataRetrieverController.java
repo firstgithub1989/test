@@ -10,19 +10,18 @@ import java.util.stream.Stream;
 
 import com.cryptocompare.dataretriever.bo.QuoteTicker;
 import com.cryptocompare.dataretriever.bo.Ticker;
+import com.cryptocompare.quotes.HistoryQuotes;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.cryptocompare.dataretriever.cache.CacheData;
 
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,12 +53,17 @@ public class DataRetrieverController {
     }
     
     @GetMapping(value = "/{fromSym}/{toSym}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Rate getRate(@PathVariable("fromSym") final String fromSym,
-                          @PathVariable("toSym") final String toSym
+    public ResponseEntity<String> getRate(@PathVariable("fromSym") final String fromSym,
+                                  @PathVariable("toSym") final String toSym
                     ) throws IOException {
 
             httpServletRequest.getHeader("user");
-    	    return new Rate(CacheData.getRate(fromSym, toSym));// + " " + httpServletRequest.getHeader("user");
+    	    return new ResponseEntity<String>(CacheData.getRate(fromSym, toSym), HttpStatus.OK);// + " " + httpServletRequest.getHeader("user");
+    }
+
+    @GetMapping(value = "/histdata/{fromSym}/{toSym}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HistoryQuotes getHistoPrice() {
+        return CacheData.getHistData("INR","BTC");
     }
 
     @GetMapping(value="/login")

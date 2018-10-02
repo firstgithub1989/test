@@ -1,3 +1,39 @@
-<p>
-  coinwallet works!
-</p>
+<div>
+  <h1>
+    Coin Wallet 
+  </h1>
+  <select id="option" (change)="onOptionSelect($event)" >
+      <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
+  </select>
+</div>
+<div class="row">
+  <br>
+  <br>
+  <h1>{{option}} Balance</h1>
+  <h2>{{option}} {{coinAmount}}</h2>
+</div>
+
+<div class="column middle">
+  <h1>Amount Deposit</h1>
+  <form  (ngSubmit)="depositAmount()">
+      <label for="amountD">Amount</label>
+      <input type="number" id="amountD" name="amountD" [(ngModel)]="amountD">
+      <button type="submit"
+        class="btn btn-primary">Deposit
+      </button>
+      {{message}}
+  </form>
+</div>
+
+<div class="column middle">
+  <h1>Amount Withdrawal</h1>
+  <form (ngSubmit)="withdrawAmount()">
+      <label for="amountW">Amount</label>
+      <input type="number" id="amountW" name="amountW" [(ngModel)]="amountW">
+      
+      <button type="submit"
+        class="btn btn-primary">Withdraw
+      </button>
+      {{message}}
+  </form>
+</div>

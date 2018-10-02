@@ -17,7 +17,7 @@ import java.security.Principal;
 
 //@EnableRedisHttpSession(redisFlushMode = RedisFlushMode.IMMEDIATE)
 @EnableZuulProxy
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 @RestController
 public class GatewayServer {
 
@@ -28,16 +28,17 @@ public class GatewayServer {
     }
 
     //@Autowired
-    private Principal principal;
+    //private Principal principal;
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayServer.class, args);
     }
 
     @GetMapping(value="/login")
-    public User login(Principal principal) {
+    public User login(Principal principal, HttpServletRequest httpServletRequest) {
         User user = new User();
         user.userName = "user";
+        //httpServletRequest.getUserPrincipal().getName();
         return user;
     }
 }

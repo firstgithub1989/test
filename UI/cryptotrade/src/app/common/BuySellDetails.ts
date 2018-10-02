@@ -3,8 +3,6 @@ export class BuySellDetials {
     public volume: number;
 
     constructor() {
-        
-    }
 
-    
+    }
 }

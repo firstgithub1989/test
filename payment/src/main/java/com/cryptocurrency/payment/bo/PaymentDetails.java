@@ -15,7 +15,7 @@ public class PaymentDetails {
 
     @NotNull
     private String userId;
-
+    private String coinName;
     private double amount;
     private double balanceAmount;
     private Timestamp tnxDate;
@@ -25,8 +25,9 @@ public class PaymentDetails {
 
     }
 
-    public PaymentDetails(String userId, double amount, double balanceAmount, boolean isDeposit) {
+    public PaymentDetails(String userId, String coinName, double amount, double balanceAmount, boolean isDeposit) {
         this.userId = userId;
+        this.coinName = coinName;
         this.amount = amount;
         this.balanceAmount = balanceAmount;
         this.isDeposit = isDeposit;
@@ -79,5 +80,13 @@ public class PaymentDetails {
 
     public void setDeposit(boolean deposit) {
         isDeposit = deposit;
+    }
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
     }
 }

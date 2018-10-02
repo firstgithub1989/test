@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuySellDetials } from '../common/BuySellDetails';
 import { BuySellServicesService } from './buy-sell-services.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-buysell',
@@ -9,35 +10,42 @@ import { BuySellServicesService } from './buy-sell-services.service';
 })
 export class BuysellComponent implements OnInit {
 
-  coinName: string;
-  inrValue: number;
-  coinAvailable: number;
+  toSym: string;
+  fromSym: string;
+  toSymAmount: string;
+  fromSymAmount: string;
+  buyVolume: string;
+  sellVolume: string;
   buyselldetail: BuySellDetials;
 
-  constructor(private buySellService: BuySellServicesService) {
-
+  constructor(private buySellService: BuySellServicesService,
+        private route: ActivatedRoute) {
+      this.route.params.subscribe( params => {
+        this.toSym = params['toSym'];
+        this.fromSym = params['fromSym'];
+      });
   }
 
   ngOnInit() {
-    this.inrValue = 1.0;
+    this.getCoinAmount();
   }
 
 
   buy() {
-    this.buySellService.buyOrder(this.buyselldetail);
+    this.buySellService.buyOrder('1', this.fromSym, this.toSym, this.buyVolume).subscribe(res => {
+      console.log(res);
+    });
   }
 
   sell() {
-    this.buySellService.sellOrder(this.buyselldetail);
+    this.buySellService.sellOrder('', this.fromSym, this.toSym, this.sellVolume).subscribe(res => {
+      console.log(res);
+    });
   }
 
-  getINRAmount() {
-    this.inrValue = this.buySellService.getInrAmount('');
-  }
-
-
-  getCoinAvailable() {
-    this.coinAvailable = this.buySellService.getCoinAmount('', '');
+  getCoinAmount() {
+    this.buySellService.getCoinAmount('', this.toSym).subscribe(res => this.toSymAmount = res);
+    this.buySellService.getCoinAmount('', this.fromSym).subscribe(res => this.fromSymAmount = res);
   }
 
 }

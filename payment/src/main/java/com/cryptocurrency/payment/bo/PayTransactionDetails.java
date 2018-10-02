@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class PayTransactionDetails {
 
+    private String coinName;
     private String paymentDate;
     private boolean isDeposit;
     private double amount;
@@ -13,10 +14,19 @@ public class PayTransactionDetails {
 
     }
 
-    public PayTransactionDetails(String paymentDate, boolean isDeposit, double amount) {
+    public PayTransactionDetails(String coinName, String paymentDate, boolean isDeposit, double amount) {
+        this.coinName = coinName;
         this.paymentDate = paymentDate;
         this.isDeposit = isDeposit;
         this.amount = amount;
+    }
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
     }
 
     public String getPaymentDate() {

@@ -9,11 +9,19 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            
             "program": "c:\\Users\\user\\AppData\\Roaming\\npm\\ng serve --open",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/dist/out-tsc/**/*.js"
             ]
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

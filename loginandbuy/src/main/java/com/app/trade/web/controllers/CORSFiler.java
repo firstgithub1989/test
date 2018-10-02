@@ -1,6 +1,5 @@
-package com.cryptocurrency.payment.controller;
+package com.app.trade.web.controllers;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;

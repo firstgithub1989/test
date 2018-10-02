@@ -12,6 +12,7 @@ import { RouterModule} from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import 'd3';
 import 'nvd3';
+import 'ngx-pagination';
 import { AuthenticationComponent } from './auth/auth.component';
 import { AuthService } from './auth/auth.service';
 import { BuysellComponent } from './buysell/buysell.component';
@@ -25,6 +26,9 @@ import { BuySellServicesService } from './buysell/buy-sell-services.service';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileService } from './profile/profile.service';
 import { AuthGuard } from './auth/auth.guard';
+import { HistoryService } from './balances/services/history.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CoinwalletService } from './balances/services/coinwallet.service';
 
 
 @NgModule({
@@ -47,6 +51,7 @@ import { AuthGuard } from './auth/auth.guard';
     NvD3Module,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
     RouterModule.forRoot([
       {
         path: 'app-auth',
@@ -64,24 +69,33 @@ import { AuthGuard } from './auth/auth.guard';
         component: TickerComponent
       },
       {
-        path: 'balances',
-        component: BalancesComponent
+        path: 'coinwallet',
+        component: CoinwalletComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'inrwallet',
-        component: InrwalletComponent
+        component: InrwalletComponent,
+        canActivate: [AuthGuard]
       },
       {
-        path: 'buysell',
-        component: BuysellComponent
+        path: 'buysell/:fromSym/:toSym',
+        component: BuysellComponent,
+        canActivate: [AuthGuard]
       },
       {
-        path: 'app-profile',
-        component: ProfileComponent
+        path: 'app-profile' ,
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
       }
    ])
   ],
-  providers: [TickerService, AuthService, BalancesService, InrwalletService,
+  providers: [TickerService, CoinwalletService, AuthService, BalancesService, InrwalletService, HistoryService,
     BuySellServicesService, ProfileService, AuthGuard],
   bootstrap: [AppComponent]
 })

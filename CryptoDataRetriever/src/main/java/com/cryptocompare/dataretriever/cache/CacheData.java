@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.cryptocompare.dataretriever.bo.QuoteTicker;
 import com.cryptocompare.dataretriever.bo.Ticker;
+import com.cryptocompare.quotes.HistoryQuotes;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,12 +26,17 @@ public class CacheData {
     String coins =  "INR,USD,BTC,ETH,LTC,XRP";
     
     private static Map<String, TradingInfo> priceData = new ConcurrentHashMap<>();
+	private static Map<String, HistoryQuotes> histData = new ConcurrentHashMap<>();
 
     @Scheduled(fixedRate = 3000)
     public void getData() throws JsonParseException, JsonMappingException, IOException {
-	for(String coin : coinsList) {
-	    priceData.put(coin, CyrptoCompare.getTradingInfo(coin, coins, null));
-	}
+		for(String coin : coinsList) {
+			priceData.put(coin, CyrptoCompare.getTradingInfo(coin, coins, null));
+		}
+
+		histData.put("INR",
+				CyrptoCompare.getHistoricalQuotes(
+						"INR", "BTC", "", "30", "Day"));
     }
 
 	public static List<Ticker> getTicker1(String fromSym) {
@@ -78,6 +84,10 @@ public class CacheData {
 	}
 	return stats;
     }
+
+    public static HistoryQuotes getHistData(String fromSym, String toSym) {
+    	return histData.get("INR");
+	}
     
     public static String getRate(String fromSym, String toSym) throws IOException {
 		TradingInfo info = priceData.get(fromSym);

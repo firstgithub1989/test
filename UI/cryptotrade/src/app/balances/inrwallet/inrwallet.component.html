@@ -1,19 +1,31 @@
-<div>
+<div class="row">
   <br>
   <br>
-  <br>
-  <br>
-  
-  <table class="table">
-    <tr>
-        <th>TOTAL</th> 
-        <th>INORDERS</th>
-        <th>AVAILABLE</th>
-    </tr>
-    <tr *ngFor="let inrDetail of inrDetails">
-      <td>{{inrDetail.total}}</td>
-      <td>{{inrDetail.inOrders}}</td>
-      <td>{{inrDetail.available}}</td>
-    </tr> 
-  </table>  
+  <h1>INR Balance</h1>
+  <h2>INR {{inrAmount}}</h2>
+</div>
+
+<div class="column middle">
+  <h1>Amount Deposit</h1>
+  <form  (ngSubmit)="depositAmount()">
+      <label for="amountD">Amount</label>
+      <input type="number" id="amountD" name="amountD" [(ngModel)]="amountD">
+      <button type="submit"
+        class="btn btn-primary">Deposit
+      </button>
+      {{message}}
+  </form>
+</div>
+
+<div class="column middle">
+  <h1>Amount Withdrawal</h1>
+  <form (ngSubmit)="withdrawAmount()">
+      <label for="amountW">Amount</label>
+      <input type="number" id="amountW" name="amountW" [(ngModel)]="amountW">
+      
+      <button type="submit"
+        class="btn btn-primary">Withdraw
+      </button>
+      {{message}}
+  </form>
 </div>

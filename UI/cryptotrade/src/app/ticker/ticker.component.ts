@@ -3,6 +3,7 @@ import { TickerService } from './../ticker.service';
 import { Ticker } from '../common/Ticker';
 import { Subscription } from 'rxjs/Subscription';
 import { share } from 'rxjs/operators';
+import { Route, Router } from '@angular/router';
 declare let d3: any;
 
 @Component({
@@ -22,7 +23,7 @@ export class TickerComponent implements OnInit {
   tickerS: Ticker;
   httpdata;
   subscription: Subscription;
-  constructor(private tickerService: TickerService) {
+  constructor(private tickerService: TickerService, private router: Router) {
     console.log('Init Ticker Component Contructor');
   }
 
@@ -35,10 +36,15 @@ export class TickerComponent implements OnInit {
 
   }
 
+
   onOptionSelect(event) {
     this.option = event.target.value;
     this.subscription.unsubscribe();
     this.doSomething();
+  }
+
+  getStatus() {
+    this.tickerService.getStatus().subscribe(res => res);
   }
 
   doSomething() {

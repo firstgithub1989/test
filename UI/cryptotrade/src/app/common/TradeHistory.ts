@@ -9,8 +9,6 @@ export class TradeHistory {
     public totalAmt: number;
 
     constructor() {
-        
-    }
 
-    
+    }
 }

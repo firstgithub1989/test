@@ -1,0 +1,45 @@
+table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+.right {
+    border-collapse: collapse;
+    width: 40%;
+    float: right;
+    margin-right: 40px;
+    padding: 30px;
+}
+
+.left {
+    border-collapse: collapse;
+    width: 40%;
+    float: left;
+    margin-left: 100px;
+    padding: 30px;
+}
+
+h2 {
+    text-align: centre;
+    text-decoration: underline;
+    font-family: "Times New Roman", Times, serif;
+}
+
+th, td, tr {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid rgb(198, 221, 241);
+}
+
+.column {
+    float: left;
+    width: 45%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+

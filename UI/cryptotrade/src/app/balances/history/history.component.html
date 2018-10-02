@@ -1,3 +1,85 @@
-<p>
-  history works!
-</p>
+<div>
+  <h1>
+    Coin Wallet 
+  </h1>
+  <select id="option" (change)="onOptionSelect($event)" >
+      <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
+  </select>
+</div>
+
+<div class="row">
+  <div >
+    <ul class="column">
+    <h2>Deposit</h2>
+    <table>
+      <tr>
+          <th>Coin Name</th> 
+          <th>Payment Date</th> 
+          <th>Amount </th>
+      </tr>
+      <tr *ngFor="let tranHistory of tranHistoryD | paginate: { id: 'deposit', itemsPerPage: 10, currentPage: pD, totalItems: totalD }">
+        <td>{{tranHistory.coinName}}</td>
+        <td>{{tranHistory.paymentDate}}</td>
+        <td>{{tranHistory.amount}}</td>
+      </tr> 
+    </table>
+    <br>
+    <br>
+    <pagination-controls (pageChange)="getDepositTnxHistory($event)" id="deposit"></pagination-controls>
+    
+  </ul>
+</div>
+<div>
+  <ul   class="column">
+    <h2>Withdraw</h2>
+    <table>
+      <tr>
+          <td>Coin Name</td>
+          <th>Payment Date</th> 
+          <th>Amount </th>
+      </tr>
+      <tr *ngFor="let tranHistory of tranHistoryW | paginate: { id: 'withdraw', itemsPerPage: 10, currentPage: pW, totalItems: totalW }">
+        <td>{{tranHistory.coinName}}</td>
+        <td>{{tranHistory.paymentDate}}</td>
+        <td>{{tranHistory.amount}}</td>
+      </tr> 
+    </table>  
+    <br>
+    <br>
+    <pagination-controls (pageChange)="getWithdrawTnxHistory($event)" id="withdraw"></pagination-controls>
+      
+  </ul>
+  </div>
+</div>
+<!-- 
+<div class="has-text-centered">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+  <pagination-controls (pageChange)="getDepositTnxHistory($event)" id="deposit"></pagination-controls>
+</div>
+<div class="has-text-centered">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }"></div>
+  <pagination-controls (pageChange)="getWithdrawTnxHistory($event)" id="withdraw"></pagination-controls>
+</div> -->
+
+
+
+
+<!-- <div>
+  <br>
+  <br>
+  <br>
+  <br>
+  
+  <table class="table">
+    <tr>
+        <th>Payment Date</th> 
+        <th>Amount </th>
+        <th>Deposit</th>
+    </tr>
+    <tr *ngFor="let tranHistoryDet of tranHistory">
+      <td>{{tranHistoryDet.paymentDate | Date}}</td>
+      <td>{{tranHistoryDet.amount}}</td>
+      <td>{{tranHistoryDet.deposit}}</td>
+    </tr> 
+  </table>  
+</div> -->

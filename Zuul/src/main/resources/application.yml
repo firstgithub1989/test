@@ -1,6 +1,10 @@
 server:
   port: ${PORT:8304}
 
+spring:
+ security:
+    enabled: false
+
 security:
   basic:
     enabled: false
@@ -16,22 +20,27 @@ zuul:
   routes:
     proxy:
       path: /proxy/**
-      sensitive-headers:
+      sensitive-headers: Cookie,Set-Cookie
       serviceId: proxy
       url: http://localhost:8304
     data-retriever:
       path: /data-retriever/**
-      sensitive-headers:
+      sensitive-headers: Cookie,Set-Cookie
       serviceId: data-retriever
       url: http://localhost:8305
     buy-service:
       path: /buy-service/**
-      sensitive-headers:
+      sensitive-headers: Cookie,Set-Cookie
       serviceId: buy-service
       url: http://localhost:8301
+    payment:
+      path: /payment/**
+      sensitive-headers: Cookie,Set-Cookie
+      serviceId: payment
+      url: http://localhost:8087
     sidecar:
       path: /sidecar/**
-      sensitive-headers:
+      sensitive-headers: Cookie,Set-Cookie
       serviceId: sidecar
       url: http://localhost:5000
 

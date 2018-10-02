@@ -14,6 +14,9 @@ export class TickerService {
 
   }
 
+  getStatus(): Observable<string> {
+    return this.http.get<string>('/status');
+  }
 
   getQuoteStream(fromSym: string): Observable<Ticker[]> {
 

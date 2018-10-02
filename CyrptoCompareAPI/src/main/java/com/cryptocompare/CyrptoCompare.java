@@ -70,8 +70,9 @@ public class CyrptoCompare {
 	QueryParamBuilder qb = new QueryParamBuilder();
 	qb.setParam(GenericQueryParams.FROMSYMBOL, fromSymbol)
 		.setParam(GenericQueryParams.TOSYMBOL, toSymbol)
-		.setParam(GenericQueryParams.EXCHANGE, exchange)
-		.setParam(GenericQueryParams.TOTIMESTAMP, toTs);
+		//.setParam(GenericQueryParams.EXCHANGE, exchange)
+		//.setParam(GenericQueryParams.TOTIMESTAMP, toTs);
+		.setParam(GenericQueryParams.LIMIT, toTs);
 	
 	String url = null;
 	switch(interval) {

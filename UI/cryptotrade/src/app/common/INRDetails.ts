@@ -4,8 +4,7 @@ export class InrDetails {
     public available: number;
 
     constructor() {
-        
+
     }
 
-    
 }

@@ -6,13 +6,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface PaymentDetailsRepository extends CrudRepository<PaymentDetails, Integer> {
 
-    public Page<PaymentDetails> findByUserIdAndIsDepositOrderByTnxIdDesc(String userId,
+    public Page<PaymentDetails> findByUserIdAndCoinNameAndIsDepositOrderByTnxIdDesc(String userId,
+                                                                         String coinName,
                                                                          boolean isDeposit,Pageable pageable);
 
-    PaymentDetails findTop1ByUserIdOrderByTnxIdDesc(String userId);
 }
