@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TickerService } from './../ticker.service';
+import { TickerService } from './ticker.service';
 import { Ticker } from '../common/Ticker';
 import { Subscription } from 'rxjs/Subscription';
-import { share } from 'rxjs/operators';
 import { Route, Router } from '@angular/router';
 declare let d3: any;
 
@@ -29,11 +28,10 @@ export class TickerComponent implements OnInit {
 
   ngOnInit() {
     this.curOptions = ['BTC', 'XRP', 'LTC', 'INR'];
-    this.option = 'LTC';
+    this.option = 'BTC';
     console.log('Init Ticker Component Init');
     this.name = 'CryptoTrade';
     this.doSomething();
-
   }
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InrDetails } from '../../common/INRDetails';
-import { InrwalletService } from '../services/inrwallet.service';
+import { InrwalletService } from './inrwallet.service';
 
 @Component({
   selector: 'app-inrwallet',

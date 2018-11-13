@@ -4,10 +4,17 @@ spring:
 
 server:
   port: 8302
+#  ssl:
+#      key-store: classpath:KeyStore.jks
+#      key-store-password: password
+#      key-password: password
 
 security:
   basic:
     enabled: false
+
+#ribbon:
+#  IsSecure: true
 
 eureka:
   client:

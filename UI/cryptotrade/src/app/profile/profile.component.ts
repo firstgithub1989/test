@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from './profile.service';
 import { UserDetails } from '../common/UserDetails';
+import { Signup } from '../common/SignUp';
 
 @Component({
   selector: 'app-profile',
@@ -9,13 +10,16 @@ import { UserDetails } from '../common/UserDetails';
 })
 export class ProfileComponent implements OnInit {
 
-  userDetails: UserDetails;
+  userDetails: Signup;
 
   constructor(public profileService: ProfileService) {
-    this.userDetails = new UserDetails();
+    this.userDetails = new Signup();
    }
 
   ngOnInit() {
-    this.profileService.getUserDetails('').subscribe(u => this.userDetails = u);
+    const userId = localStorage.getItem('currentUser');
+    this.profileService.getUserDetails(userId).subscribe(res => {
+      this.userDetails = res['_body'];
+    });
   }
 }

@@ -1,0 +1,4 @@
+applications:
+  - name: payment
+    buildpack: java_buildpack
+    no-route: true

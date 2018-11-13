@@ -2,6 +2,22 @@ li {
     font: outline;
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
+    padding: 10px 30px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+span {
+    font-size: 20px;
+}
+
+.profile {
+    width: 40%;
 }
 
 p {

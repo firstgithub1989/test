@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -17,18 +18,37 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-
+@Configuration
 @EnableWebSecurity
-@Order(10)
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+    private AuthEntryPoint authEntryPoint;
+
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS);
+        web.ignoring().antMatchers(HttpMethod.OPTIONS).antMatchers(HttpMethod.POST, "/register",
+                "/*", "/front/**", "index.html");
     }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+
+            }
+        };
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,14 +60,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.cors().disable()
+                .httpBasic().authenticationEntryPoint(authEntryPoint).and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").anonymous()
+                .antMatchers("/index.html","/login").permitAll()
                 .anyRequest().fullyAuthenticated().and()
+                .formLogin().loginPage("/index.html").and()
                 .logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
                 .and()
-                .httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and().csrf().disable();
     }
@@ -58,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        // auth.inMemoryAuthentication().withUser("root").password("password").roles("USER");
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(
-                        "select username,password, enabled from users where username=?")
+                        "select user_name,password, enabled from users where user_name=?")
                 .authoritiesByUsernameQuery(
                             "select username, role from roles where username=?");
     }

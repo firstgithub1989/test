@@ -5,7 +5,4 @@ export class KoinWallets {
     public available: number;
 
     constructor() {}
-    
-
-    
 }

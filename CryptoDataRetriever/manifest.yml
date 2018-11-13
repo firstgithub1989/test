@@ -1,0 +1,4 @@
+applications:
+  - name: dataretriever
+    buildpack: java_buildpack
+    no-route: true

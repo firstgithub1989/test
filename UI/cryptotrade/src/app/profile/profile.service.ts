@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { UserDetails } from '../common/UserDetails';
+import { Http, RequestOptions, Response} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { KoinWallets } from '../common/KoinWallets';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ProfileService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: Http) { }
 
-  getUserDetails(user: String): Observable<UserDetails> {
-    return this.http.get<UserDetails>('../assets/userDetails.json');
+  getUserDetails(userId: string): Observable<Response> {
+    const options = new RequestOptions();
+    options.withCredentials = true;
+
+    return this.http.get('http://localhost:8304/profile/' + userId, options);
   }
-
 }

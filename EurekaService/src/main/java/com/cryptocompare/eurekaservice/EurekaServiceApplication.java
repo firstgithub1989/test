@@ -9,6 +9,10 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 public class EurekaServiceApplication {
 
 	public static void main(String[] args) {
+//		System.setProperty("eureka.client.registerWithEureka", "false");
+//		System.setProperty("eureka.client.fetchRegistry", "false");
+//		System.setProperty("eureka.client.serviceUrl.defaultZone", "https://eureka.apps.internal:8080/eureka/");
+//		System.setProperty("eureka.client.instance.hostname", "localhost");
 		SpringApplication.run(EurekaServiceApplication.class, args);
 		//printWords();
 	}

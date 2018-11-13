@@ -11,7 +11,7 @@ public class HistoryQuotes {
     private String TimeFrom;
     private String FirstValueInArray;
     private ConversionType ConversionType;
-    private Iterable<Data> values;
+    private Iterable<Data> Data;
     
     public String getResponse() {
         return Response;
@@ -23,7 +23,7 @@ public class HistoryQuotes {
         return Aggregated;
     }
     public Iterable<Data> getData() {
-        return values;
+        return Data;
     }
     public String getTimeTo() {
         return TimeTo;
@@ -39,7 +39,7 @@ public class HistoryQuotes {
     }
 
     public void setValues(Iterable<Data> values) {
-        this.values = values;
+        this.Data = values;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HistoryQuotes {
 		+ ", Aggregated=" + Aggregated + ", TimeTo=" + TimeTo
 		+ ", TimeFrom=" + TimeFrom + ", FirstValueInArray="
 		+ FirstValueInArray + ", ConversionType=" + ConversionType
-		+ ", Data=" + values + "]";
+		+ ", Data=" + Data + "]";
     }
 }
 

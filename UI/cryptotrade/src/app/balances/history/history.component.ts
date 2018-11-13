@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoryService } from '../services/history.service';
+import { HistoryService } from './history.service';
 import { TranHistory } from '../../common/TranHistory';
+import { BuySellDetials } from '../../common/BuySellDetails';
 
 @Component({
   selector: 'app-history',
@@ -11,10 +12,16 @@ export class HistoryComponent implements OnInit {
 
   tranHistoryD: TranHistory[];
   tranHistoryW: TranHistory[];
+  buyHistory: BuySellDetials[];
+  sellHistory: BuySellDetials[];
   totalD: number;
   totalW: number;
+  totalB: number;
+  totalS: number;
   pW: number;
   pD: number;
+  pB: number;
+  pS: number;
   option: string;
   curOptions: string[];
 
@@ -22,7 +29,7 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.curOptions = ['BTC', 'XRP', 'LTC', 'INR'];
-    this.option = 'LTC';
+    this.option = 'BTC';
     this.pW = 0;
     this.pD = 0;
     this.tranHistoryD = [];
@@ -38,7 +45,8 @@ export class HistoryComponent implements OnInit {
   }
 
   getDepositTnxHistory(page: number) {
-    this.historyService.getTranHistory('', this.option, page - 1, true).subscribe(res => {
+    const userId = localStorage.getItem('currentUser');
+    this.historyService.getTranHistory(userId, this.option, page - 1, true).subscribe(res => {
       console.log(res);
       this.pD = page;
       this.totalD = res.total;
@@ -51,7 +59,8 @@ export class HistoryComponent implements OnInit {
   }
 
   getWithdrawTnxHistory(page: number) {
-    this.historyService.getTranHistory('', this.option, page - 1, false).subscribe(res => {
+    const userId = localStorage.getItem('currentUser');
+    this.historyService.getTranHistory(userId, this.option, page - 1, false).subscribe(res => {
       console.log(res);
       this.pW = page;
       this.totalW = res.total;

@@ -1,46 +1,80 @@
 server:
   port: ${PORT:8304}
 
+
+
+#  ssl:
+#      key-store: classpath:KeyStore.jks
+#      key-store-password: password
+#      key-password: password
+#  error:
+#    path: /index.html
+#    whitelabel:
+#      enabled: false
 spring:
- security:
+  application:
+    name: gateway
+  security:
     enabled: false
 
 security:
   basic:
     enabled: false
+  user:
+    #name: root
+    password: pass
+  ignored:
+    - "*.bundle.*"
+
+management:
+  security:
+    enabled: false
+
+
+
+#ribbon:
+#  IsSecure: true
+#
+#error:
+#  path: /index.html
 
 #spring:
 #  session:
 #    store-type: redis
 
+endpoints:
+  routes:
+    sensitive: false
+
 zuul:
   #Service will be mapped under the /api URI
   prefix: /api
+  sensitiveHeaders:
   ignoredServices: '*'
   routes:
     proxy:
       path: /proxy/**
-      sensitive-headers: Cookie,Set-Cookie
+      sensitive-headers:
       serviceId: proxy
       url: http://localhost:8304
     data-retriever:
       path: /data-retriever/**
-      sensitive-headers: Cookie,Set-Cookie
+      sensitive-headers:
       serviceId: data-retriever
       url: http://localhost:8305
     buy-service:
       path: /buy-service/**
-      sensitive-headers: Cookie,Set-Cookie
+      sensitive-headers:
       serviceId: buy-service
       url: http://localhost:8301
     payment:
       path: /payment/**
-      sensitive-headers: Cookie,Set-Cookie
+      sensitive-headers:
       serviceId: payment
       url: http://localhost:8087
     sidecar:
       path: /sidecar/**
-      sensitive-headers: Cookie,Set-Cookie
+      sensitive-headers:
       serviceId: sidecar
       url: http://localhost:5000
 

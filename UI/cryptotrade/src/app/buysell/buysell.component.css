@@ -5,9 +5,40 @@ graph {
 
 form {
     float: right;
+    width: 20%;
 }
 
 table {
     float: centre;
     width: 20%
 }
+
+input[type=submit] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: chocolate;
+}
+
+input[type=text]{
+    padding: 5px 5px;
+    margin: 3px 0;
+    box-sizing: border-box;
+    background-color:rgb(245, 235, 235);
+    border: 2px solid lightblue;
+    border-radius: 4px;
+}
+
+input[type=number]{
+    padding: 5px 5px;
+    margin: 3px 0;
+    box-sizing: border-box;
+    background-color:rgb(245, 235, 235);
+    border: 2px solid lightblue;
+    border-radius: 4px;
+}
+
+span {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+

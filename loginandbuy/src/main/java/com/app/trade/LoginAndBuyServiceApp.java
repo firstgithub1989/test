@@ -15,3 +15,4 @@ public class LoginAndBuyServiceApp {
 		SpringApplication.run(LoginAndBuyServiceApp.class, args);
 	}
 }
+

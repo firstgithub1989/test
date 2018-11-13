@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name = "payment_details")
+@Table(name = "cc_payment_details")
 public class PaymentDetails {
 
     @Id

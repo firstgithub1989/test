@@ -1,38 +1,46 @@
-<p>
-  buysell works!
-</p>
-<graph class='graph'></graph>
+<app-alert></app-alert>
+<app-graph class='graph'></app-graph>
 
 <form class="form1" name="SELL" (ngSubmit)="sell()">
-    <a>SELL {{fromSym}}</a>
+    <span>SELL {{fromSym}}</span>
     <br>
-    {{fromSym}} Balance {{fromSymAmount}}
+    <span>{{fromSym}} Balance {{fromSymAmount}}</span>
     <br>
-    <input placeholder="Volume" required="" step="1" type="text" [(ngModel)]='sellVolume' name='sellVolume'>
-    <br>
-    <br>
-    <input type="text" name="Price" placeholder="Price per Coin">
+    <input placeholder="Volume" required="" step="1" type="number" 
+        [(ngModel)]='sellVolume' name='sellVolume'>
     <br>
     <br>
-    <input type="text" name="Total Amount" placeholder="Total Amount">
+    <input type="text" name="Price" placeholder="{{rate | number:'1.0-6'}}" disabled>
+    <br>
+    <br>
+    <input type="text" name="Total Amount" placeholder="{{sellVolume * rate | number:'1.0-6'}}" disabled>
     <br>
     <br>
     <input type="submit" value="SELL">
+    <div >
+            <p *ngIf="sellVolume > fromSymAmount">Lower Balance</p>
+         </div>
+
 </form>
 
 <form class="form1" name="BUY" (ngSubmit)="buy()">
-    <a>BUY {{fromSym}}</a>
+    <span>BUY {{fromSym}}</span>
     <br>
-    {{toSym}} Balance {{toSymAmount}}
+    <span>{{toSym}} Balance {{toSymAmount}}</span>
     <br>
-    <input placeholder="Volume" required="" step="1" type="text" [(ngModel)]="buyVolume" name='buyVolume'>
-    <br>
-    <br>
-    <input type="text" name="Price" placeholder="Price per Coin">
+            <input placeholder="Volume" required step="1" type="number" 
+            [(ngModel)]="buyVolume" name='buyVolume'>
     <br>
     <br>
-    <input type="number" name="Total Amount" placeholder="Total Amount">
+    <input type="text" name="Price" placeholder="{{rate | number:'1.0-6'}}" disabled>
+    <br>
+    <br>
+    <input type="number" name="Total Amount" placeholder="{{buyVolume * rate | number:'1.0-6'}}" disabled>
     <br>
     <br>
     <input type="submit" value="BUY">
+    <div *ngIf="buyVolume * rate > toSymAmount">
+            <p value='true'>Lower Balance</p>
+         </div>
+
 </form>

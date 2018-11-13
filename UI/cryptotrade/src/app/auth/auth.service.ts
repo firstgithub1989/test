@@ -1,6 +1,8 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Http, Headers, RequestOptions, Response} from '@angular/http';
 import { HttpClient } from '@angular/common/http';
+import { Signup } from '../common/SignUp';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
@@ -8,30 +10,24 @@ export class AuthService {
     @Output() change: EventEmitter<string> = new EventEmitter();
     isLoggedIn: boolean;
     authS: string;
+
     constructor(public http: Http, public httpHeaders: Http) {
 
     }
 
-    login(userName: string, password: string): string {
-        // console.log(userName + ':' + password);
-        // const headers = new Headers();
-        let user = null;
-        // headers.append('Authorization', 'Basic' + btoa(userName + ':' + password));
-        // console.log(headers.toJSON());
+    login(userName: string, password: string): Observable<Response> {
+        const headers = new Headers();
+        headers.append('Authorization', 'Basic ' + btoa(userName + ':' + password));
 
-        // const options = new RequestOptions();
-        // options.headers = headers;
-        // options.withCredentials = true;
-        this.http.get('http://localhost:8304/login', null)
-        .map((response: Response) => {
-            console.log('response ' + response.text());
-            console.log(user);
-            }
-        )
-        .subscribe();
+        const options = new RequestOptions();
+        options.headers = headers;
+        options.withCredentials = true;
 
-        this.isLoggedIn = (user != null);
-        return user;
+        return this.http.get('http://localhost:8304/login', options);
+    }
+
+    register(model: Signup): Observable<Response> {
+        return this.http.post('http://localhost:8304/register', model);
     }
 
 }

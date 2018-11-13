@@ -10,7 +10,7 @@ import java.util.Date;
 public class CurrencyPurchases {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
+    private long tnx_id;
     private String userId;
     private String currencyName;
     private double quantity;
@@ -18,22 +18,29 @@ public class CurrencyPurchases {
     private double totalAmt;
     private Timestamp purchaseDate = new Timestamp(new Date().getTime());
     private String toCurrency;
+    private boolean isBuy;
 
-    public CurrencyPurchases(String userId, String currencyName, double quantity, double price, double totalAmt, String toCurrency) {
+    public CurrencyPurchases () {
+
+    }
+
+    public CurrencyPurchases(String userId, String currencyName, double quantity, double price, double totalAmt, String toCurrency,
+                             boolean isBuy) {
         this.userId = userId;
         this.currencyName = currencyName;
         this.quantity = quantity;
         this.price = price;
         this.totalAmt = totalAmt;
         this.toCurrency = toCurrency;
+        this.isBuy = isBuy;
     }
 
     public long getId() {
-        return id;
+        return tnx_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long tnx_id) {
+        this.tnx_id = tnx_id;
     }
 
     public String getUserId() {
@@ -90,5 +97,13 @@ public class CurrencyPurchases {
 
     public void settoCurrency(String toCurrency) {
         this.toCurrency = toCurrency;
+    }
+
+    public boolean isBuy() {
+        return isBuy;
+    }
+
+    public void setBuy(boolean buy) {
+        isBuy = buy;
     }
 }

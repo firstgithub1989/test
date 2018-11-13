@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoinwalletService } from '../services/coinwallet.service';
+import { CoinwalletService } from './coinwallet.service';
+import { AlertService } from '../../alert/alert.service';
 
 @Component({
   selector: 'app-coinwallet',
@@ -16,7 +17,8 @@ export class CoinwalletComponent implements OnInit {
   amountD: string;
   amountW: string;
 
-  constructor(private coinWalletService: CoinwalletService) {
+  constructor(private coinWalletService: CoinwalletService,
+    private alertService: AlertService) {
 
   }
 
@@ -31,26 +33,32 @@ export class CoinwalletComponent implements OnInit {
   }
 
   getCoinWallet() {
-    this.coinWalletService.getCoinWallet('', this.option).subscribe(res => {
+    const userId = localStorage.getItem('currentUser');
+    this.coinWalletService.getCoinWallet(userId, this.option).subscribe(res => {
       console.log(res);
-      this.coinAmount = res;
+      this.coinAmount = res['_body'] ;
       }
-      // this.koinWallets.push(new KoinWallets(res["coinName"],
-      //   res["total"], res["inOrders"], res["available"]
     );
   }
 
   withdrawAmount() {
     console.log('withdrawing');
-    console.log(this.amountW);
-    this.coinWalletService.withDrawAmount('', this.option, this.amountW).subscribe(res => this.message = res);
-    this.getCoinWallet();
+    this.alertService.clear();
+    const userId = localStorage.getItem('currentUser');
+    this.coinWalletService.withDrawAmount(userId, this.option, this.amountW).subscribe(response => {
+      this.alertService.success(response['_body']);
+      this.getCoinWallet();
+    });
   }
 
   depositAmount() {
     console.log('depositing');
-    console.log(this.amountD);
-    this.coinWalletService.depositAmount('',  this.option, this.amountD).subscribe(res => this.message = res);
-    this.getCoinWallet();
+    this.alertService.clear();
+    const userId = localStorage.getItem('currentUser');
+    this.coinWalletService.depositAmount(userId,  this.option, this.amountD).subscribe(response => {
+      console.log(response);
+      this.alertService.success(response['_body']);
+      this.getCoinWallet();
+    });
   }
 }

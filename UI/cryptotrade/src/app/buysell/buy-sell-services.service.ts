@@ -3,38 +3,55 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { BuySellDetials } from '../common/BuySellDetails';
 import { Observable } from 'rxjs/Observable';
 import { AppSetting } from '../common/appsettings';
+import { Http, RequestOptions, Response, URLSearchParams } from '@angular/http';
 
 @Injectable()
 export class BuySellServicesService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: Http) {
 
   }
 
-  buyOrder(userName: string, fromSym: string, toSym: string, volume: string): Observable<string> {
+  buyOrder(userId: string, fromSym: string, toSym: string, volume: string): Observable<Response> {
     // const params = new HttpParams().set('userId', '1').set('fromSym', fromSym)
     //     .set('toSym', toSym).set('amount', volume);
+    const params = new URLSearchParams();
+      params.set('userId', userId);
+      params.set('fromSym', fromSym);
+      params.set('toSym', toSym);
+      params.set('volume', volume);
+      const options = new RequestOptions();
+      options.params = params;
+      options.withCredentials = true;
 
-    return this.http.post<string>(AppSetting.BUYSELL
-      + userName + '/' + volume + '/' + fromSym + '/' + toSym, {
-        responseType: 'text'});
+    return this.http.post(AppSetting.BUY, null, {params});
   }
 
-  sellOrder(userName: string, fromSym: string, toSym: string, volume: string) {
-    // const params = new HttpParams().set('userId', '1').set('fromSym', fromSym)
-    //     .set('toSym', toSym).set('amount', volume);
+  sellOrder(userId: string, fromSym: string, toSym: string, volume: string): Observable<Response> {
+    const params = new URLSearchParams();
+      params.set('userId', userId);
+      params.set('fromSym', fromSym);
+      params.set('toSym', toSym);
+      params.set('volume', volume);
+      const options = new RequestOptions();
+      options.params = params;
+      options.withCredentials = true;
 
-    return this.http.post<string>(AppSetting.BUYSELL
-    + userName + '/'  + volume + '/' + fromSym + '/' + toSym, {
-      responseType: 'text'});
+    return this.http.post(AppSetting.SELL, null, {params});
   }
 
-  getInrAmount(userName: string): Observable<string> {
-    return this.http.get<string>(AppSetting.BUYSELL + 'getBalanceAmount/1/');
+  getInrAmount(userId: string): Observable<Response> {
+    return this.http.get(AppSetting.PAYMENT + 'getBalanceAmount/' + userId);
   }
 
-  getCoinAmount(userName: string, coinName: string): Observable<string> {
-    return this.http.get<string>(AppSetting.PAYMENT  + 'getBalanceAmount/1/' + coinName);
+  getCoinAmount(userId: string, coinName: string): Observable<Response> {
+    const params = new URLSearchParams();
+      params.set('user', userId);
+      params.set('coinName', coinName);
+      const options = new RequestOptions();
+      options.params = params;
+      options.withCredentials = true;
+    return this.http.get(AppSetting.PAYMENT  + 'getBalanceAmount/', {params});
   }
 
 }

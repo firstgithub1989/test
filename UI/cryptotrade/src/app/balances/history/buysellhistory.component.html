@@ -1,0 +1,61 @@
+<div>
+    <h1>
+      Coin History 
+    </h1>
+    <select class="dropdown"  id="option" (change)="onOptionSelect($event)" >
+        <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
+    </select>
+  </div>
+  
+  <div class="row">
+    <div >
+      <ul class="column">
+      <h2>Buy</h2>
+      <table>
+        <tr>
+            <th>Coin Name</th> 
+            <th>Volume</th> 
+            <th>Rate</th>
+            <th>From Coin</th>
+            <th>Purchase Date</th>
+        </tr>
+        <tr *ngFor="let buyHistory of buyHistory | paginate: { id: 'buy', itemsPerPage: 10, currentPage: pB, totalItems: totalB }">
+          <td>{{buyHistory.coinName}}</td>
+          <td>{{buyHistory.volume}}</td>
+          <td>{{buyHistory.rate}}</td>
+          <td>{{buyHistory.fromSym}}</td>
+          <td>{{buyHistory.purchaseDate}}</td>
+        </tr> 
+      </table>
+      <br>
+      <br>
+      <pagination-controls (pageChange)="getBuyTnxHistory($event)" id="buy"></pagination-controls>
+      
+    </ul>
+  </div>
+  <div>
+    <ul   class="column">
+      <h2>Sell</h2>
+      <table>
+        <tr>
+            <th>Coin Name</th> 
+            <th>Volume</th> 
+            <th>Rate</th>
+            <th>From Coin</th>
+            <th>Purchase Date</th>
+        </tr>
+        <tr *ngFor="let sellHistory of sellHistory | paginate: { id: 'sell', itemsPerPage: 10, currentPage: pS, totalItems: totalS }">
+          <td>{{sellHistory.coinName}}</td>
+          <td>{{sellHistory.volume}}</td>
+          <td>{{sellHistory.rate}}</td>
+          <td>{{sellHistory.fromSym}}</td>
+          <td>{{sellHistory.purchaseDate}}</td>
+        </tr> 
+      </table>
+      <br>
+      <br>
+      <pagination-controls (pageChange)="getSellTnxHistory($event)" id="sell"></pagination-controls>
+        
+    </ul>
+    </div>
+  </div>

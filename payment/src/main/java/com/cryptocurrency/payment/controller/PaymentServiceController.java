@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Map;
 
 @RequestMapping("/pay")
@@ -22,9 +24,11 @@ public class PaymentServiceController {
     @PostMapping(value = "/deposit")
     public ResponseEntity<String> depositAmount(@RequestParam("user") final String user,
                                                 @RequestParam("coinName") final String coinName,
-                                                @RequestParam("amount") final String amount) {
+                                                @RequestParam("amount") final String amount,
+                                HttpServletRequest httpServletRequest, Principal principal) {
+
         payService.depositAmount(user, coinName, new Double(amount));
-        return new ResponseEntity<String>("{message: Amount Deposit Successful}", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<String>("Amount Deposit Successful", HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/withdraw")
@@ -35,16 +39,17 @@ public class PaymentServiceController {
         try {
             payService.withdrawAmount(user, coinName, new Double(amount));
         } catch (XInsufficientBalance xInsufficientBalance) {
-            return new ResponseEntity<String>(xInsufficientBalance.getMessage(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(xInsufficientBalance.getMessage(), HttpStatus.OK);
         }
-        return new ResponseEntity<String>("{message: Amount Withdraw Successful}", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<String>("Amount Withdraw Successful", HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value = "/getBalanceAmount/{user}/{coinName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public double getBalanceAmount(@PathVariable("user") final String user,
-                               @PathVariable("coinName") final String coinName) {
+    @GetMapping(value = "/getBalanceAmount/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Double> getBalanceAmount(@RequestParam("user") final String user,
+                                   @RequestParam("coinName") final String coinName) {
 
-        return payService.getBalanceAmount(user, coinName);
+        double amt = payService.getBalanceAmount(user, coinName);
+        return new ResponseEntity<Double>(amt, HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/updateBalanceAmount")

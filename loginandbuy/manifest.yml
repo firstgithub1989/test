@@ -1,0 +1,4 @@
+applications:
+  - name: buyservice
+    buildpack: java_buildpack
+    no-route: true

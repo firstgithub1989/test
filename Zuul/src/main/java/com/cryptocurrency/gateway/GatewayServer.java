@@ -2,13 +2,16 @@ package com.cryptocurrency.gateway;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -19,6 +22,7 @@ import java.security.Principal;
 @EnableZuulProxy
 @SpringBootApplication
 @RestController
+@EnableEurekaClient
 public class GatewayServer {
 
 
@@ -27,23 +31,39 @@ public class GatewayServer {
         return new AuthFilter();
     }
 
-    //@Autowired
-    //private Principal principal;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     public static void main(String[] args) {
+//        System.setProperty("eureka.client.serviceUrl.defaultZone","https://eureka.apps.internal:8080/eureka");
         SpringApplication.run(GatewayServer.class, args);
+
     }
 
+    @CrossOrigin
     @GetMapping(value="/login")
-    public User login(Principal principal, HttpServletRequest httpServletRequest) {
-        User user = new User();
-        user.userName = "user";
-        //httpServletRequest.getUserPrincipal().getName();
-        return user;
-    }
-}
+    public ResponseEntity<String> login(Principal principal, HttpServletRequest httpServletRequest) {
 
-class User {
-    public String userName;
+        long userId = userDetailsService.findUserID(principal.getName());
+        return new ResponseEntity<String>(Long.toString(userId), HttpStatus.OK);
+    }
+
+    @PostMapping(value="/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> register(@RequestBody UserDetails userDetails) {
+        userDetailsService.saveUser(userDetails);
+        return new ResponseEntity<String>("Registration Successful", HttpStatus.OK);
+    }
+
+    @GetMapping(value="/profile/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDetails> userDetails(@PathVariable("userId") long userId) {
+
+        UserDetails userDetails = userDetailsService.findUser(userId);
+        return new ResponseEntity<UserDetails>(userDetails, HttpStatus.OK);
+    }
+
+    //@Override
+    public String getErrorPath() {
+        return "/index.html";
+    }
 }
 

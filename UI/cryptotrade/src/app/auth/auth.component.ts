@@ -1,22 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AuthService } from './auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Signup } from '../common/SignUp';
 
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.css'],
+  encapsulation: ViewEncapsulation.Native
 })
 export class AuthenticationComponent implements OnInit {
 
   user: string;
+  @ViewChild('f') form: any;
 
 
-  model: Signup = new Signup();
+  model: Signup ;
 
-  logIn: Signup = new Signup();
+  logIn: Signup ;
 
   constructor(private authService: AuthService, private route: ActivatedRoute,
     private router: Router) {
@@ -24,22 +27,19 @@ export class AuthenticationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.model = new Signup();
   }
 
   login() {
-     this.user  = this.authService.login(this.model.firstName, this.model.password);
-     localStorage.setItem('currentUser', this.user);
-     window.location.reload();
-     this.router.navigateByUrl('/marketplace');
+    if (this.form.valid) {
+      console.log('login request' + this.model.password + this.model.userName);
+      this.authService.login(this.model.userName, this.model.password)
+      .subscribe(response => {
+        localStorage.setItem('currentUser', response['_body']);
+        window.location.reload();
+        this.router.navigate(['/marketplace']);
+      });
     }
-}
-
-
-class Signup {
-  constructor(public firstName: string = '',
-              public lastName: string = '',
-              public email: string = '',
-              public password: string = '',
-              public language: string = '') {
+     // window.location.reload();
   }
 }

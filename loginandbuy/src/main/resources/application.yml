@@ -14,6 +14,9 @@ eureka:
      defaultZone: http://localhost:8302/eureka/
   instance:
     hostname: localhost
+#    securePort: ${server.port}
+#    securePortEnabled: true
+#    nonSecurePortEnabled: false
 
 
 #keycloak:

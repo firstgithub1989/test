@@ -1,8 +1,8 @@
 <div>
   <h1>
-    Coin Wallet 
+    Coin History 
   </h1>
-  <select id="option" (change)="onOptionSelect($event)" >
+  <select class="dropdown"  id="option" (change)="onOptionSelect($event)" >
       <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
   </select>
 </div>
@@ -34,7 +34,7 @@
     <h2>Withdraw</h2>
     <table>
       <tr>
-          <td>Coin Name</td>
+          <th>Coin Name</th>
           <th>Payment Date</th> 
           <th>Amount </th>
       </tr>
@@ -83,3 +83,4 @@
     </tr> 
   </table>  
 </div> -->
+<router-outlet></router-outlet>

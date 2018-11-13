@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import com.cryptocompare.dataretriever.bo.QuoteTicker;
 import com.cryptocompare.dataretriever.bo.Ticker;
+import com.cryptocompare.dataretriever.cache.HistoryData;
 import com.cryptocompare.quotes.HistoryQuotes;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.cloud.netflix.feign.FeignClient;
@@ -41,15 +42,8 @@ public class DataRetrieverController {
     public Flux<List<Ticker>> getPriceAll(@PathVariable("fromSym") final String fromSym)
 	    throws IOException {
 
-	//Flux<List<Map<String, Object>>> data = Flux.fromStream(Stream.generate(() -> CacheData.getPriceData(fromSym)));
-
-	Flux<Long> interval = Flux.interval(Duration.ofSeconds(5));
-	return Flux.zip(Flux.fromStream(Stream.generate(() -> CacheData.getTicker1(fromSym))), interval).map(Tuple2::getT1);
-    //return Flux.fromIterable(CacheData.getTicker1(fromSym)).delayElements(Duration.ofSeconds(3));
-	/*
-	 * return Flux.fromStream( Stream.generate(() ->
-	 * CacheData.getPriceData(fromSym)));
-	 */
+	    Flux<Long> interval = Flux.interval(Duration.ofSeconds(0), Duration.ofSeconds(5));
+	    return Flux.zip(Flux.fromStream(Stream.generate(() -> CacheData.getTicker1(fromSym))), interval).map(Tuple2::getT1);
     }
     
     @GetMapping(value = "/{fromSym}/{toSym}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,26 +51,19 @@ public class DataRetrieverController {
                                   @PathVariable("toSym") final String toSym
                     ) throws IOException {
 
-            httpServletRequest.getHeader("user");
-    	    return new ResponseEntity<String>(CacheData.getRate(fromSym, toSym), HttpStatus.OK);// + " " + httpServletRequest.getHeader("user");
+        httpServletRequest.getHeader("userid");
+    	return new ResponseEntity<String>(CacheData.getRate(fromSym, toSym), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/histdata/{fromSym}/{toSym}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public HistoryQuotes getHistoPrice() {
-        return CacheData.getHistData("INR","BTC");
-    }
-
-    @GetMapping(value="/login")
-    public User login() {
-        User user = new User();
-        user.userName = httpServletRequest.getHeader("user");
-        return user;
+    @GetMapping(value = "/histdata/{fromSym}/{toSym}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Map<String, List<HistoryData>>> getHistoPrice(@PathVariable("fromSym") final String fromSym,
+                                                              @PathVariable("toSym") final String toSym) {
+        Flux<Long> interval = Flux.interval(Duration.ofSeconds(0), Duration.ofSeconds(5));
+        return Flux.zip(Flux.fromStream(Stream.generate(() -> CacheData.getHistData(fromSym,toSym))), interval).
+                map(Tuple2::getT1);
     }
 }
 
-class User {
-    public String userName;
-}
 
 class Rate {
     public String rate;

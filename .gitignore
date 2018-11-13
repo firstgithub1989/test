@@ -31,6 +31,6 @@
 *.log
 *.sql
 *.sqlite
-
+**/resources/static
 */target/**
 */dist/*

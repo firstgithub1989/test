@@ -21,20 +21,16 @@
       </li>
 
       <li *ngIf="!auth" class="navigation">
-        <a [routerLink]="['/app-auth']">Register</a>
+        <a [routerLink]="['/app-register']">Register</a>
       </li>
       <li class="dropdown" *ngIf="auth">
         <a href="javascript:void(0)" class="dropbtn">BALANCES</a>
         <div class="dropdown-content">
-          
             <a class='uppercase' [routerLink]="['/coinwallet']" *ngIf="auth">KOIN WALLET</a>
-            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">KOIN WALLET</a>
           
-            <a class='uppercase' [routerLink]="['/inrwallet']" *ngIf="auth">INR WALLET</a>
-            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">INR WALLET</a>
+            <a class='uppercase' [routerLink]="['/buysellhistory']" *ngIf="auth">PURCHASE HISTORY</a>
             
-            <a class='uppercase' href='/history' *ngIf="auth">MY HISTORY</a>
-            <a class='uppercase' ng-click='vm.signIn()' *ngIf="!auth">MY HISTORY</a>
+            <a class='uppercase' [routerLink]="['/history']" *ngIf="auth">PAYMENT HISTORY</a>
         </div>
       </li>
       <li class="navigation">

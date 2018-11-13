@@ -2,8 +2,8 @@
   <h1>
     Coin Wallet 
   </h1>
-  <select id="option" (change)="onOptionSelect($event)" >
-      <option *ngFor='let option of curOptions' [value]="option">{{option}}</option>
+  <select class="dropdown" id="option" (change)="onOptionSelect($event)" >
+      <option class="option" *ngFor='let option of curOptions' [value]="option">{{option}}</option>
   </select>
 </div>
 <div class="row">
@@ -13,15 +13,17 @@
   <h2>{{option}} {{coinAmount}}</h2>
 </div>
 
+<app-alert></app-alert>
 <div class="column middle">
   <h1>Amount Deposit</h1>
   <form  (ngSubmit)="depositAmount()">
       <label for="amountD">Amount</label>
       <input type="number" id="amountD" name="amountD" [(ngModel)]="amountD">
+      <br>
+      <br>
       <button type="submit"
         class="btn btn-primary">Deposit
       </button>
-      {{message}}
   </form>
 </div>
 
@@ -30,10 +32,11 @@
   <form (ngSubmit)="withdrawAmount()">
       <label for="amountW">Amount</label>
       <input type="number" id="amountW" name="amountW" [(ngModel)]="amountW">
-      
+      <br>
+      <br>
       <button type="submit"
         class="btn btn-primary">Withdraw
       </button>
-      {{message}}
   </form>
 </div>
+<router-outlet></router-outlet>

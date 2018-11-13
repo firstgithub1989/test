@@ -1,4 +1,5 @@
-import { Component, ViewChild, OnInit, AfterViewInit, AfterContentInit, ContentChild, HostBinding, Input } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, AfterContentInit,
+  ContentChild, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { AuthenticationComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
@@ -7,7 +8,7 @@ import { AuthService } from './auth/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   appTitle = 'Trade here';
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
   logout() {
         localStorage.removeItem('currentUser');
         window.location.reload();
-        this.router.navigateByUrl('/marketplace');
+        this.router.navigate(['/marketplace']);
   }
 }
 

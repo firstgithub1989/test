@@ -1,0 +1,4 @@
+applications:
+  - name: eureka
+    buildpack: java_buildpack
+    no-route: true
